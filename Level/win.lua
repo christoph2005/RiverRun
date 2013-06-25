@@ -63,8 +63,6 @@ function sceneWin:enterScene( event )
 	
 	levelDirector = require ("Level.winBuild")
 
-	myAssets = levelDirector.LoadAssets()
-
 	myLevel = levelDirector.CreateLevel(physics)
 		
 	local water1 = myLevel.layers['bg'].objects['water1']

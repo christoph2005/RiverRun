@@ -396,8 +396,6 @@ function sceneL2:createScene( event )
 
 	levelDirector = require ("Level.level2Build")
 
-	myAssets = levelDirector.LoadAssets()
-
 	myLevel = levelDirector.CreateLevel(physics)
 	
 	-- Begin character/NPC objects

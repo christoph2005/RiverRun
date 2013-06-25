@@ -416,9 +416,7 @@ function sceneL2:createScene( event )
 	enemyBeavers = {}
 
 	levelDirector = require ("Level.level2bBuild")
-
-	myAssets = levelDirector.LoadAssets()
-
+	
 	myLevel = levelDirector.CreateLevel(physics)
 	
 	-- Begin character/NPC objects
