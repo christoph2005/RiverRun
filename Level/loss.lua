@@ -52,8 +52,6 @@ function sceneLoss:enterScene( event )
 
 	levelDirector = require ("Level.lossBuild")
 
-	myAssets = levelDirector.LoadAssets()
-
 	myLevel = levelDirector.CreateLevel(physics)
 		
 	water1 = myLevel.layers['bg'].objects['water1']
