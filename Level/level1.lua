@@ -441,12 +441,6 @@ function sceneL1:createScene( event )
 ---------------------------------------------------------
 	physics.setVelocityIterations(16)
 	physics.setPositionIterations(16)
-   -- player things
-   --player.isPlayer = true
-   --player.timeLastInSwamp = 0
-   --player.timeLastInRapid = 0
-   -- Add things to phyics	
-	--physics.addBody( player, "dynamic")
 	physics.addBody( swamps, "static")
 	physics.addBody( rapids,"static")
 ---------------------------------------------------------

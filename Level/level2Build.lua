@@ -19,14 +19,6 @@ function LoadAssets()
 
     local assets = {}
 
-    ---- Asset : beaverGIF_png_1 ----
-    assets["beaverGIF_png_1"] = {}
-    assets["beaverGIF_png_1"].file = "beaverGIF.png"
-    assets["beaverGIF_png_1"].name = "beaverGIF_png_1"
-    assets["beaverGIF_png_1"].width = 100
-    assets["beaverGIF_png_1"].height = 98
-    assets["beaverGIF_png_1"].frame = 1
-    assets["beaverGIF_png_1"].frameCount = 5
 
     ---- Asset : canoeH_png ----
     assets["canoeH_png"] = {}
@@ -617,18 +609,6 @@ function CreateLevel(physics)
 -- ===============================/\Rapids Sprites/\==========================================================
 
 
-    local beaverGIF_png = sprite.newSpriteSheet( imgSubFolder .. "beaverGIF.png", 100,98)
-    local beaverGIF_png_Set = sprite.newSpriteSet(beaverGIF_png, 1,5)
-    level.layers["fg"].objects["beaver"] = sprite.newSprite(beaverGIF_png_Set)
-    level.layers["fg"].objects["beaver"].currentFrame = 1
-    level.layers["fg"].objects["beaver"].x = 172
-    level.layers["fg"].objects["beaver"].y = 444
-    level.layers["fg"].objects["beaver"].xScale = 0.24
-    level.layers["fg"].objects["beaver"].yScale = 0.244897959183673
-    local beaver_shape = {-11,-9,-10,-11,10,-11,11,-10,11,7,3,12,-1,12,-11,7    }
-    physics.addBody(level.layers["fg"].objects["beaver"],"dynamic",{density = 1, friction = 0, bounce = 0, shape = beaver_shape})
-    level.layers["fg"].objects["beaver"].name = "beaver"
-    level.layers["fg"]:insert(level.layers["fg"].objects["beaver"])
 
     level.layers["fg"].objects["beaveBoatH2"] = display.newImageRect( imgSubFolder .. "canoeH.png",108,39 )
     level.layers["fg"].objects["beaveBoatH2"].x = -15

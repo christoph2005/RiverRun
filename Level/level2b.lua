@@ -11,7 +11,7 @@ local widget = require "widget"
 local storyboard = require( "storyboard" )
 local sceneL2 = storyboard.newScene()
 local backgroundMusic = audio.loadStream("Audio/DragonForce.mp3")
-local speed, beaver, background, land, TimerValue, startTime, myText, physics, finished, eelTimer
+local speed, player, background, land, TimerValue, startTime, myText, physics, finished, eelTimer
 local river1, river2, redLine
 local eels = {}
 local eelsE = {}
@@ -26,7 +26,7 @@ local kioskTime = {}
 local kioskMode = getKioskMode()
 local path = system.pathForFile("multiTemp.txt", system.TemporaryDirectory)
 local pathTS = system.pathForFile("lvl2bTopScores.txt", system.DocumentsDirectory)
-local level, multiPlayMode, player
+local level, multiPlayMode, currentPlayer
 --------------------------------------
 --CHRIS IMPLEMENTS BELOW:
 --------------------------------------
@@ -37,14 +37,14 @@ local boost = speed
 function setSpeed()
    force = 12
    halfH = display.contentHeight/2
-   dx, dy = beaver:getLinearVelocity()
-   local lastInSwamp = os.time() - beaver.timeLastInSwamp
-   local lastInRapid = os.clock() - beaver.timeLastInRapid
+   dx, dy = player:getLinearVelocity()
+   local lastInSwamp = os.time() - player.timeLastInSwamp
+   local lastInRapid = os.clock() - player.timeLastInRapid
    --print("Time last in swamp : "..lastInSwamp)
    --print("Time last in rapids: "..lastInRapid)
    
-   if beaver.y<halfH and beaver.y>0 then
-      scale = 1-beaver.y/halfH
+   if player.y<halfH and player.y>0 then
+      scale = 1-player.y/halfH
       if lastInSwamp < 1 and lastInRapid >0 then
       
          if boost > 0 then
@@ -65,12 +65,12 @@ function setSpeed()
       end
       
       if dy<0 then
-         beaver:applyForce(0,scale*force, beaver.x, beaver.y)
+         player:applyForce(0,scale*force, player.x, player.y)
       end
       
    else
    
-      if beaver.y>0 then
+      if player.y>0 then
          boost = 0
       else
          
@@ -134,7 +134,7 @@ function updateTimer()
          end
       end
    end
---   loc.text = "X,Y: "..beaver.x.." , "..beaver.y
+--   loc.text = "X,Y: "..player.x.." , "..player.y
 end
 
 function update()
@@ -153,30 +153,30 @@ function acc:accelerometer(event)
      local dx, dy = event.xGravity, event.yGravity
      local mag = math.sqrt(dx*dx+dy*dy)
      local xHat, yHat = dx/mag, dy/mag
-     beaver:applyForce(force*xHat,force*yHat*.7, beaver.x, beaver.y)
+     player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
    end
 end
 function move(self,event)
    if (self) then
       lastMovementTick = os.time()
-      dx = self.x - beaver.x
-      dy = self.y - beaver.y
+      dx = self.x - player.x
+      dy = self.y - player.y
       mag = math.sqrt(dx*dx+dy*dy)
       xHat = dx/mag
       yHat = dy/mag
       force = 1.7
-      beaver:applyForce(force*xHat,force*yHat*.7, beaver.x, beaver.y)
+      player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
    end
 end
 
 function moveKiosk(self,event)
    while(kioskTime[kioskIndex] == timeSpent.."") do
       local force = 1.7
-      local dx = kioskX[kioskIndex] - beaver.x
-      local dy = kioskY[kioskIndex] - beaver.y
+      local dx = kioskX[kioskIndex] - player.x
+      local dy = kioskY[kioskIndex] - player.y
       local mag = math.sqrt(dx*dx+dy*dy)
       local xHat, yHat = dx/mag, dy/mag
-      beaver:applyForce(force*xHat,force*yHat*.7, beaver.x, beaver.y)
+      player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
 	  kioskIndex= kioskIndex+1;
 	end
 	if (kioskTime[kioskIndex]) then
@@ -192,9 +192,9 @@ end
 --------------------------------------
 --           Future loss handeling function
 function winLossListener()
-	if beaver then
-      -- beaver went below the bottom (LOSE)
-		if (beaver.y > display.contentHeight+beaver.height) then
+	if player then
+      -- player went below the bottom (LOSE)
+		if (player.y > display.contentHeight+player.height) then
 			if(not(finished)) then
 				print("Lose")
 			end
@@ -202,8 +202,8 @@ function winLossListener()
 			recordResult("Lost")
 			storyboard.gotoScene( "Level.loss", "fade", 500 )
 		else
-      -- beaver touched the finish line (WIN)
-         if (beaver.y <= redLine.y) then
+      -- player touched the finish line (WIN)
+         if (player.y <= redLine.y) then
 			   if(not(finished)) then
 				   print("Win")
 			   end
@@ -216,15 +216,15 @@ function winLossListener()
 end	
 function recordResult(won_lost)
    local file
-   if player == "Player2" then
+   if currentPlayer == "Player2" then
       file = io.open(path,"a")
-      file:write(player..": "..won_lost.." in "..timeSpent.." seconds\n")
+      file:write(currentPlayer..": "..won_lost.." in "..timeSpent.." seconds\n")
    io.close(file)
    else
       file = io.open(path,"w")
       file:write(level.."\n"
                ..multiPlayMode.."\n"
-               ..player..": "..won_lost.." in "..timeSpent.." seconds\n")
+               ..currentPlayer..": "..won_lost.." in "..timeSpent.." seconds\n")
    io.close(file)
    end
       -- Update top Scores
@@ -319,7 +319,7 @@ function crushListener(self, event)
 			self.x = self.x - 1
 		else
 			self.x = self.xInitial
-			if(beaver.y > self.y-self.width/4 and beaver.y < self.y+self.width/4) then -- player is crushed
+			if(player.y > self.y-self.width/4 and player.y < self.y+self.width/4) then -- player is crushed
 				timer.performWithDelay(100, crushed)
 			end
 		end
@@ -386,7 +386,7 @@ function stunListener(self, event)
 end
 
 function eelPreCollision(self, event)
-   if (event.contact and event.other and event.other.isBeaver) then
+   if (event.contact and event.other and event.other.isPlayer) then
       local dx = event.other.x-self.x
       local dy = event.other.y-self.y
       local mag = math.sqrt(dx*dx+dy*dy)
@@ -423,7 +423,14 @@ function sceneL2:createScene( event )
 	
 	-- Begin character/NPC objects
 
-	beaver = myLevel.layers["fg"].objects["beaver"]
+  	require("Scripts.characters")
+   player = beaverChar()
+   print("////////////////////////////////////////////////////////////////////")
+   print("For some reason even though this clearly proves the angularDamping has been applied the physics engine is not taking into account the players angular damping!!!???")
+   print("player.angularDamping: "..tostring(player.angularDamping))
+   print("player.isBullit: "..tostring(player.isBullit))
+   print("////////////////////////////////////////////////////////////////////")
+   physics.addBody(player, "dynamic", player.physicsProperties)
 
 	-- End character/NPC objects
 
@@ -513,20 +520,13 @@ function sceneL2:createScene( event )
 	eelE6:play()
 	eelE7:play()
 	eelE8:play()
-	beaver:play()
+	player:play()
    -- End land objects
 ---------------------------------------------------------
 --Initial values needed for Chris's implementation BELOW:
 ---------------------------------------------------------
 	physics.setVelocityIterations(16)
 	physics.setPositionIterations(16)
-   -- Beaver things
-   beaver.angularDamping = 5
-   beaver.isBeaver = true
-   beaver.timeLastInSwamp = 0
-   beaver.timeLastInRapid = 0
-   -- Add things to phyics	
-	physics.addBody( beaver, "dynamic")
 ---------------------------------------------------------
 --Initial values needed for Chris's implementation ABOVE:
 ---------------------------------------------------------
@@ -566,7 +566,7 @@ function sceneL2:createScene( event )
 	for i=1, 6 do
 		group:insert(land[i])
 	end
-	group:insert(beaver)
+	group:insert(player)
 	for i=7, # land do
 		group:insert(land[i])
 	end
@@ -652,12 +652,12 @@ function sceneL2:enterScene( event )
    level = file:read()
    multiPlayMode = file:read()
    if multiPlayMode == "Singleplayer" then
-      player = "Player"
+      currentPlayer = "Player"
    else
       if file:read() == "Player1" then
-         player = "Player1"
+         currentPlayer = "Player1"
       else
-         player = "Player2"
+         currentPlayer = "Player2"
       end
    end
    io.close(file)
