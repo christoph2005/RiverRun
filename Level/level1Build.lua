@@ -235,22 +235,6 @@ function LoadAssets()
     assets["info_gif"].frame = 0
     assets["info_gif"].frameCount = 0  
 	
-	---- Asset : beaverGIF ----
-    assets["beaverGIF"] = {}
-    assets["beaverGIF"].file = "beaverGIF.png"
-    assets["beaverGIF"].name = "beaverGIF"
-    assets["beaverGIF"].width = 100
-    assets["beaverGIF"].height = 98
-    assets["beaverGIF"].frame = 1
-    assets["beaverGIF"].frameCount = 5
-    assets["beaverGIF"].animSequence = {}
-    assets["beaverGIF"].animSequence["swim"] = {}
-    assets["beaverGIF"].animSequence["swim"].name = "swim"
-    assets["beaverGIF"].animSequence["swim"].startFrame = 1
-    assets["beaverGIF"].animSequence["swim"].frameCount = 5
-    assets["beaverGIF"].animSequence["swim"].time = 200
-    assets["beaverGIF"].animSequence["swim"].loop = 1
-    table.insert(assets["beaverGIF"].animSequence,assets["beaverGIF"].animSequence["swim"])
     return assets
 
 end -- LoadAssets
@@ -599,22 +583,7 @@ function CreateLevel(physics)
     level.layers["fg"].objects["flag2"].x = 284
     level.layers["fg"].objects["flag2"].y = -2725
     level.layers["fg"].objects["flag2"].name = "flag2"
-    level.layers["fg"]:insert(level.layers["fg"].objects["flag2"])
-	
-	local beaverGIF_png = sprite.newSpriteSheet( imgSubFolder .. "beaverGIF.png", 100,98)
-    local beaverGIF_png_Set = sprite.newSpriteSet(beaverGIF_png, 1,5)
-    sprite.add(beaverGIF_png_Set,"swim",1,5,200,1)
-    level.layers["fg"].objects["beaver"] = sprite.newSprite(beaverGIF_png_Set)
-    level.layers["fg"].objects["beaver"].currentFrame = 1
-    level.layers["fg"].objects["beaver"].x = 174
-    level.layers["fg"].objects["beaver"].y = 456
-    level.layers["fg"].objects["beaver"].xScale = 0.33
-    level.layers["fg"].objects["beaver"].yScale = 0.346938775510204
-    local beaver_shape = {-15.5,-13,-12.5,-16,13.5,-16,15.5,-13,15.5,9,3.5,17,-1.5,17,-15.5,9    }
-    physics.addBody(level.layers["fg"].objects["beaver"],"dynamic",{density = 1, friction = 0, bounce = .3, shape = beaver_shape})
-    level.layers["fg"].objects["beaver"].name = "beaver"
-    level.layers["fg"]:insert(level.layers["fg"].objects["beaver"])
-    
+    level.layers["fg"]:insert(level.layers["fg"].objects["flag2"])	  
     
      ---- Asset : swamp sprite ----
     local SheetInfo = require ("Scripts.swampSprite")
