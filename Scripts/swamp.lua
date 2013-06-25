@@ -6,7 +6,7 @@ function swampListener(self,event)
       mag = math.sqrt(xHat*xHat + yHat*yHat)
       xHat = xHat / mag*-1
       yHat = yHat / mag*-1
-      if other.isBeaver then
+      if other.isPlayer then
          force = .1
          other.timeLastInSwamp = os.time()
       else
