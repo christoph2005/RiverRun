@@ -146,29 +146,6 @@ function update()
    swapEels()
 end
 
-local acc={}
-function acc:accelerometer(event)  
-   if (event) then
-     local force = 1.7*7
-     local dx, dy = event.xGravity, event.yGravity
-     local mag = math.sqrt(dx*dx+dy*dy)
-     local xHat, yHat = dx/mag, dy/mag
-     player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
-   end
-end
-function move(self,event)
-   if (self) then
-      lastMovementTick = os.time()
-      dx = self.x - player.x
-      dy = self.y - player.y
-      mag = math.sqrt(dx*dx+dy*dy)
-      xHat = dx/mag
-      yHat = dy/mag
-      force = 1.7
-      player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
-   end
-end
-
 function moveKiosk(self,event)
    while(kioskTime[kioskIndex] == timeSpent.."") do
       local force = 1.7
@@ -585,8 +562,8 @@ function sceneL2:enterScene( event )
 	if(kioskMode) then
 		Runtime:addEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:addEventListener("touch", move) 
-      Runtime:addEventListener("accelerometer", acc)
+		Runtime:addEventListener("touch", player) 
+      Runtime:addEventListener("accelerometer", player)
 	end
 	Runtime:addEventListener("touch", logClicks2)
    
@@ -669,8 +646,8 @@ function sceneL2:exitScene( event )
 	if(kioskMode) then
 		Runtime:removeEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:removeEventListener("touch", move)
-      Runtime:removeEventListener("accelerometer", acc)
+		Runtime:removeEventListener("touch", player)
+      Runtime:removeEventListener("accelerometer", player)
 	end
 	Runtime:removeEventListener("touch", logClicks)
 	Runtime:removeEventListener("enterFrame", update)

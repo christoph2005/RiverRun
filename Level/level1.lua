@@ -171,26 +171,6 @@ function update()
    scrollWater()
    updateTimer()
 end
-local acc={}
-function acc:accelerometer(event)  
-   if (event) then
-     local force = 1.7*7
-     local dx, dy = event.xGravity, event.yGravity
-     local mag = math.sqrt(dx*dx+dy*dy)
-     local xHat, yHat = dx/mag, dy/mag
-     player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
-   end
-end
-function move(self,event)
-   if (self) then
-      local force = 1.7
-      local dx = self.x - player.x
-      local dy = self.y - player.y
-      local mag = math.sqrt(dx*dx+dy*dy)
-      local xHat, yHat = dx/mag, dy/mag
-      player:applyForce(force*xHat,force*yHat*.7, player.x, player.y)
-   end
-end
 
 function moveKiosk(self,event)
    while(kioskTime[kioskIndex] == timeSpent.."") do
@@ -470,8 +450,8 @@ function sceneL1:enterScene( event )
 	if(kioskMode) then
 		Runtime:addEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:addEventListener("touch", move)
-      Runtime:addEventListener("accelerometer", acc)  
+		Runtime:addEventListener("touch", player)
+      Runtime:addEventListener("accelerometer", player)  
 	end
 	Runtime:addEventListener("touch", logClicks)
    
@@ -515,8 +495,8 @@ function sceneL1:exitScene( event )
 	if(kioskMode) then
 		Runtime:removeEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:removeEventListener("touch", move)
-      Runtime:removeEventListener("accelerometer", acc) 
+		Runtime:removeEventListener("touch", player)
+      Runtime:removeEventListener("accelerometer", player) 
 	end
 	Runtime:removeEventListener("touch", logClicks)
 	Runtime:removeEventListener("enterFrame", update)
