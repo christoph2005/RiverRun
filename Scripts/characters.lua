@@ -52,11 +52,14 @@ end
 function beaverChar()   
    local beaverGIF_png = sprite.newSpriteSheet( imgSubFolder .. "beaverGIF.png", 100,98)
    local beaverGIF_png_Set = sprite.newSpriteSet(beaverGIF_png, 1,5)
-   local beaver_shape = {-16,-9.5,-13,-16.5,14,-16.5,16,-9.5,16,6.5,3,17.5,-2,17.5,-16,7.5    }
+   local beaver_shape = {-16,-9.5,-13,-16.5,14,-16.5,16,-9.5,16,6.5,3,17.5,-2,17.5,-16,7.5}
+   for i=1, #beaver_shape do
+      beaver_shape[i]=beaver_shape[i]*.8
+   end
    local beaver = sprite.newSprite(beaverGIF_png_Set)
-      beaver.xScale = 0.34*.8
-      beaver.yScale = 0.357142857142857*.8
-      beaver.physicsProperties = {density = 1, friction = 0, bounce = 0, shape = beaver_shape}
+      beaver.xScale = .25
+      beaver.yScale = .25
+      beaver.physicsProperties = {density = 1, friction = 0, bounce = 0.00000000000001, shape = beaver_shape}
       beaver.name = "beaver"
       attachStandardFeatures(beaver)  
       return beaver

@@ -55,7 +55,6 @@ function sceneWin:enterScene( event )
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=3, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 	
 
 	physics.start()
-	physics.setDrawMode( "normal" )
 	
 	local levelDirector =nil
 	local myLevel = {}

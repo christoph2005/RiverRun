@@ -301,7 +301,6 @@ function sceneL1:createScene( event )
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
    physics = require("physics")
    physics.start(); physics.pause()
---	physics.setDrawMode( "hybrid" )
 
 	local levelDirector =nil
 	speed = 1.5
