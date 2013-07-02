@@ -44,7 +44,7 @@ function credits(creditsObjects)
          logo.y = display.contentHeight*.5-150
          group:insert(logo)
          local team = display.newImage("team.png")
-         team:scale(0.7,0.7)
+         team:scale(0.6,0.6)
          team.x = display.contentWidth*.5
          team.y = display.contentHeight*.5+50
          group:insert(team)
