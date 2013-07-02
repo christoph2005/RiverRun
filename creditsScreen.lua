@@ -159,7 +159,7 @@ function sceneOpt:enterScene( event )
       ,"Rapids"
       ,"Timer"
       ,"Score tracking"
-      , "Ending Credits"})
+      ,"Ending Credits"})
    })   
    Runtime:addEventListener("enterFrame",c)
 
