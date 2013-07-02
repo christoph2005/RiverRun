@@ -104,6 +104,9 @@ function creditsObject(namePath,imgPath,items)
             for i=1, #co.group do
                local dist = math.abs(co.group[i].y-co.topY)
                local alphaMag = 1 - math.abs(dist/co.heightY)
+               if alphaMag < 0 then
+                  alphaMag = 0
+               end
                co.group[i].y = co.group[i].y+1
                co.group[i].alpha = alphaMag
             end
