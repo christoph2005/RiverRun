@@ -44,7 +44,6 @@ function sceneLoss:enterScene( event )
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=3, loops=0, fadein=3000 }  )  -- play the background music on channel 1, loop infinitely, and fadein
 
 	physics.start()
-	physics.setDrawMode( "normal" )
 	
 	local levelDirector =nil 
 	local myLevel = {}

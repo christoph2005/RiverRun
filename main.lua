@@ -11,6 +11,7 @@ display.setStatusBar( display.HiddenStatusBar )
 local storyboard = require "storyboard"
 
 local physics = require "physics"
+--physics.setDrawMode( "hybrid" )
 
 -- load menu screen
 storyboard.gotoScene( "splash" )
