@@ -114,7 +114,10 @@ function sceneOpt:enterScene( event )
    
    c = credits(
    {
-       creditsObject("Alex.png",
+       creditsObject("Raph.png",
+      {"Group Leader", "Menus & Screens", "Logos & Feel"})
+      
+      ,creditsObject("Alex.png",
       {"Level Designer","Kiosk Mode","Win/Loss Screens",
       "Main character","Physics Bodies","Electric Eels"
       ,"Top Scores"})
@@ -132,7 +135,7 @@ function sceneOpt:enterScene( event )
 	   print("leaving credits")
       storyboard.gotoScene( "menu", "fade", 500 )
    end
-	timer.performWithDelay(25000, leaveOptions)
+	timer.performWithDelay(27000, leaveOptions)
 
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
 
