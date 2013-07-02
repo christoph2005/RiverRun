@@ -43,7 +43,7 @@ function credits(creditsObjects)
          logo.x = display.contentWidth*.5
          logo.y = display.contentHeight*.5-150
          group:insert(logo)
-         local team = display.newImage("team.png")
+         local team = display.newImage("Images/Team/team.png")
          team:scale(0.6,0.6)
          team.x = display.contentWidth*.5
          team.y = display.contentHeight*.5+50
@@ -137,16 +137,16 @@ function sceneOpt:enterScene( event )
 
    c = credits(
    {
-       creditsObject("Raph.png",
+       creditsObject("Images/Team/Raph.png",
       {"Group Leader", "Game Concept", "Menus & Screens", "Logos & Feel", 
       "Multi-Player Mode", "Level Select"})
       
-      ,creditsObject("Alex.png",
+      ,creditsObject("Images/Team/Alex.png",
       {"Level Designer","Kiosk Mode","Win/Loss Screens",
       "Main character","Physics Bodies","Electric Eels"
       ,"Top Scores"})
       
-      ,creditsObject("Chris.png",
+      ,creditsObject("Images/Team/Chris.png",
       {"Hostile beaver and projectiles"
       ,"Background/Foreground Scrolling Algorithm","Character Controls"
       ,"Whirlpools","Turbines","Camera","Swamps/Rapids"
