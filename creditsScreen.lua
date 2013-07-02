@@ -9,6 +9,7 @@ local levelDirector
 local group, co, co1, c
 local storyboard = require( "storyboard" )
 local sceneOpt = storyboard.newScene()
+local backgroundMusic = audio.loadStream("Audio/Credits.mp3")
 
 -- include Corona's "widget" library
 local widget = require "widget"
@@ -33,6 +34,21 @@ function credits(creditsObjects)
             end
          end
       else
+         local bg = display.newImageRect("Images/water.jpg",display.contentWidth, display.contentHeight)
+         bg.x = display.contentWidth*.5
+         bg.y = display.contentHeight*.5
+         group:insert(bg)
+         local logo = display.newImage("Images/logo.gif")
+         logo:scale(0.5, 0.5)
+         logo.x = display.contentWidth*.5
+         logo.y = display.contentHeight*.5-150
+         group:insert(logo)
+         local team = display.newImage("team.png")
+         team:scale(0.7,0.7)
+         team.x = display.contentWidth*.5
+         team.y = display.contentHeight*.5+50
+         group:insert(team)
+         Runtime:removeEventListener("enterFrame",c)
          --print("Credits Over")      
       end
    end
@@ -110,8 +126,15 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function sceneOpt:enterScene( event )
-	group = self.view
-   
+	group = self.view   
+	function leaveOptions()
+      c = nil
+	   print("leaving credits")
+      storyboard.gotoScene( "menu", "fade", 500 )
+   end
+	timer.performWithDelay(34000, leaveOptions)
+   local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds
+
    c = credits(
    {
        creditsObject("Raph.png",
@@ -129,15 +152,9 @@ function sceneOpt:enterScene( event )
       ,"Score tracking", "Ending Credits"})
    })   
    Runtime:addEventListener("enterFrame",c)
-   
-	function leaveOptions()
-      c = nil
-	   print("leaving credits")
-      storyboard.gotoScene( "menu", "fade", 500 )
-   end
-	timer.performWithDelay(27000, leaveOptions)
 
-	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
+
+	
 
 	
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
@@ -147,7 +164,6 @@ end
 -- Called when scene is about to move offscreen:
 function sceneOpt:exitScene( event )
 	group = self.view
-   Runtime:removeEventListener("enterFrame",c)
 	physics.pause()
 	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
 	
