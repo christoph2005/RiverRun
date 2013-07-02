@@ -166,6 +166,7 @@ end
 
 
 function update()
+   player:applyLinearImpulse(0,0,player.x,player.y)
    setSpeed()
    scrollTerrain()
    scrollWater()
@@ -300,7 +301,7 @@ function sceneL1:createScene( event )
 	print("Create level1")
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
    physics = require("physics")
-   physics.start(); physics.pause()
+   physics.start(true); physics.pause()
 
 	local levelDirector =nil
 	speed = 1.5
@@ -416,8 +417,6 @@ function sceneL1:createScene( event )
 ---------------------------------------------------------
 --Initial values needed for Chris's implementation BELOW:
 ---------------------------------------------------------
-	physics.setVelocityIterations(16)
-	physics.setPositionIterations(16)
 	physics.addBody( swamps, "static")
 	physics.addBody( rapids,"static")
 ---------------------------------------------------------
@@ -445,7 +444,7 @@ end
 function sceneL1:enterScene( event )
 	group = self.view
 	finished = false
-	physics.start()
+	physics.start(true)
 	if(kioskMode) then
 		Runtime:addEventListener("enterFrame", moveKiosk)
 	else

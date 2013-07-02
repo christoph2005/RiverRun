@@ -17,6 +17,7 @@ function attachStandardFeatures(player)
    player.y = 426
    player.isPlayer = true
    player.isBullit = true
+   player.isSleepingAllowed = false  
    player.angularDamping = 5
    player.timeLastInSwamp = 0
    player.timeLastInRapid = 0  
@@ -59,7 +60,8 @@ function beaverChar()
    local beaver = sprite.newSprite(beaverGIF_png_Set)
       beaver.xScale = .25
       beaver.yScale = .25
-      beaver.physicsProperties = {density = 1, friction = 0, bounce = 0.00000000000001, shape = beaver_shape}
+      beaver.physicsProperties = {density = 1, friction = 0
+      , bounce = 0.00000000000001, shape = beaver_shape}
       beaver.name = "beaver"
       attachStandardFeatures(beaver)  
       return beaver

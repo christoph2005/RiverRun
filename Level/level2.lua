@@ -226,6 +226,7 @@ function panBeavers()
 end
 
 function update()
+   player:applyLinearImpulse(0,0,player.x,player.y)
    updateTimer()
    setSpeed()
    scrollTerrain()
@@ -363,7 +364,7 @@ function sceneL2:createScene( event )
 	print("Create level1")
 	
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
-	physics.start(); physics.pause()
+	physics.start(true); physics.pause()
 
 	local levelDirector =nil
 	speed = 1.0
@@ -549,7 +550,7 @@ end
 function sceneL2:enterScene( event )
 	local group = self.view
 	finished = false
-	physics.start()
+	physics.start(true)
 	
 	if(kioskMode) then
 		Runtime:addEventListener("enterFrame", moveKiosk)
