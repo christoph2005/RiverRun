@@ -147,10 +147,19 @@ function sceneOpt:enterScene( event )
       ,"Top Scores"})
       
       ,creditsObject("Images/Team/Chris.png",
-      {"Hostile beaver and projectiles"
-      ,"Background/Foreground Scrolling Algorithm","Character Controls"
-      ,"Whirlpools","Turbines","Camera","Swamps/Rapids"
-      ,"Score tracking", "Ending Credits"})
+      {"Lead Programmer"      
+      ,"Background/Foreground Scrolling Algorithm"
+      ,"Game Logic"
+      ,"Hostile beaver projectiles"
+      ,"Character Controls"
+      ,"Whirlpools"
+      ,"Turbines"
+      ,"Camera"
+      ,"Swamps"
+      ,"Rapids"
+      ,"Timer"
+      ,"Score tracking"
+      , "Ending Credits"})
    })   
    Runtime:addEventListener("enterFrame",c)
 
