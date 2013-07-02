@@ -3,6 +3,10 @@
 -- creditsSceen.lua
 --
 -----------------------------------------------------------------------------------------
+-- forward declarations and other locals
+
+local levelDirector
+local group, co, co1, c
 local storyboard = require( "storyboard" )
 local sceneOpt = storyboard.newScene()
 
@@ -11,17 +15,81 @@ local widget = require "widget"
 
 print("Credit Screen")
 --------------------------------------------
-
--- forward declarations and other locals
-local background
-local background2
-local riverRun, alex, alexImage, alexInfo, chris, chrisImage, chrisInfo, raf, rafImage, rafInfo, teamImage
-local items
-local backgroundMusic = audio.loadStream("Audio/Credits.mp3")
-
-function leaveOptions()
-	print("leaving credits")
-    storyboard.gotoScene( "menu", "fade", 500 )
+function credits(creditsObjects)
+   local c = {}
+   c.curr = 1
+   function c.enterFrame(self,event)
+      if c.curr <= #creditsObjects then
+         --print("c.curr: "..tostring(c.curr))
+         --print("looping")
+         --print("isPlaying: "..tostring(creditsObjects[c.curr].isPlaying))
+         --print("done: "..tostring(creditsObjects[c.curr].done))
+         if(creditsObjects[c.curr].done) then
+               creditsObjects[c.curr]=nil
+               c.curr = c.curr+1
+         else
+            if (not creditsObjects[c.curr].isPlaying) then
+               creditsObjects[c.curr] = creditsObjects[c.curr].play()
+            end
+         end
+      else
+         --print("Credits Over")      
+      end
+   end
+   return c
+end
+function creditsObject(imgPath,items)
+   local co = {}   
+   local fontSize = 16   
+   co.done = false
+   co.isPlaying = false
+   local function done()
+      return #co.group>0 and co.group[#co.group].y >= co.midY
+   end
+   local function readyForMore()
+      return (#co.group < #items)
+         and ( #co.group ==0 or (co.group[#co.group].y > co.topY+2.5*fontSize))
+   end
+   function co.play()
+      co = display.newImageRect(imgPath, 200, 200)
+      co.x = display.contentWidth/2
+      co.y = 120
+      co.group = display.newGroup()
+      co.topY = co.contentHeight*.5+co.y + 20
+      co.botY = display.contentHeight-15
+      co.midY = (co.botY+co.topY)*.5
+      co.heightY = (co.botY-co.topY)
+      co.isPlaying = true
+      co.done = false
+      function co.enterFrame(self,event)
+         if done() then
+            for i=#co.group,1,-1 do
+               co.group[i]:removeSelf()
+            end
+            co:removeSelf()         
+            Runtime:removeEventListener("enterFrame", co)
+            co.done = true
+            co.isPlaying = false
+         else
+            if readyForMore() then
+               local newText = display.newText(items[#co.group+1], 0, co.topY, native.systemFont, fontSize)
+               newText:setTextColor(255, 255, 255)
+               newText.x = display.contentWidth*.5
+               table.insert(co.group,newText)
+            end
+            for i=1, #co.group do
+               local dist = math.abs(co.group[i].y-co.topY)
+               local alphaMag = 1 - math.abs(dist/co.heightY)
+               co.group[i].y = co.group[i].y+1
+               co.group[i].alpha = alphaMag
+            end
+         end
+      end
+      Runtime:addEventListener("enterFrame", co)
+      group:insert(co)
+      return co
+   end   
+   return co
 end
 
 -----------------------------------------------------------------------------------------
@@ -32,131 +100,42 @@ end
 -- 
 -----------------------------------------------------------------------------------------
 
+
+
 -- Called when the scene's view does not exist:
 function sceneOpt:createScene( event )
-	local group = self.view
+	group = self.view
 	storyboard.removeAll()
---[[	
-	physics = require("physics")
-	local levelDirector =nil
-	local myLevel = {}
-]]	
-	items = {}
-	
-	print("Credits")
---[[	
-	levelDirector = require ("creditsBuild")
-
-	myAssets = levelDirector.LoadAssets()
-
-	myLevel = levelDirector.CreateLevel(physics)
-]]
-	
-	background = display.newImageRect( "Images/water.jpg", display.contentWidth, display.contentHeight )
-	background2 = display.newImageRect( "Images/water2.jpg", display.contentWidth, display.contentHeight )
-
-	riverRun = display.newImageRect( "Images/Credits/logo.gif",307,117 )
-    riverRun.x = 160
-    riverRun.y = 73
-    riverRun.name = "riverRun"
-	
-	alex = display.newImageRect( "Images/Credits/alex.gif",180,83 )
-    alex.x = 160
-    alex.y = -135
-    alex.name = "alex"
-
-    alexImage = display.newImageRect( "Images/Credits/alex-image.jpeg",140,165 )
-    alexImage.x = 83
-    alexImage.y = -289
-    alexImage.name = "alexImage"
-
-    alexInfo = display.newImageRect( "Images/Credits/alex-info.jpeg",140,165 )
-    alexInfo.x = 248
-    alexInfo.y = -289
-    alexInfo.name = "alexInfo"
-
-    chris = display.newImageRect( "Images/Credits/chris.gif",199,92 )
-    chris.x = 160
-    chris.y = -572
-    chris.name = "chris"
-
-    chrisImage = display.newImageRect( "Images/Credits/chris-image.jpeg",140,165 )
-    chrisImage.x = 248
-    chrisImage.y = -743
-    chrisImage.name = "chrisImage"
-
-    chrisInfo = display.newImageRect( "Images/Credits/chris-info.jpeg",140,165 )
-    chrisInfo.x = 83
-    chrisInfo.y = -743
-    chrisInfo.name = "chrisInfo"
-
-    raf = display.newImageRect( "Images/Credits/rafael.gif",183,79 )
-    raf.x = 160
-    raf.y = -1004
-    raf.name = "raf"
-
-    rafImage = display.newImageRect( "Images/Credits/rafael-image.jpeg",140,165 )
-    rafImage.x = 83
-    rafImage.y = -1163
-    rafImage.name = "rafImage"
-
-    rafInfo = display.newImageRect( "Images/Credits/rafael-info.jpeg",140,165 )
-    rafInfo.x = 248
-    rafInfo.y = -1163
-    rafInfo.name = "rafInfo"
-
-    teamImage = display.newImageRect( "Images/Credits/team.jpg",300,204 )
-    teamImage.x = display.contentWidth * 0.5
-    teamImage.y = -1450
-    teamImage.name = "teamImage"
-	
---[[	
-	riverRun = myLevel.layers['fg'].objects['riverRun']
-	alex = myLevel.layers['fg'].objects['alex']
-	alexImage = myLevel.layers['fg'].objects['alexImage']
-	alexInfo = myLevel.layers['fg'].objects['alexInfo']
-	chris = myLevel.layers['fg'].objects['chris']
-	chrisImage = myLevel.layers['fg'].objects['chrisImage']
-	chrisInfo = myLevel.layers['fg'].objects['chrisInfo']
-	raf = myLevel.layers['fg'].objects['raf']
-	rafImage = myLevel.layers['fg'].objects['rafImage']
-	rafInfo = myLevel.layers['fg'].objects['rafInfo']
-	teamImage = myLevel.layers['fg'].objects['teamImage']
-]]	
-	items = {riverRun, alex, alexImage, alexInfo, chris, chrisImage, chrisInfo, raf, rafImage, rafInfo, teamImage}
-	
-   
-	-- display a background image
-	background2.x = 160
-	background2.y = -240
-	background:setReferencePoint( display.TopLeftReferencePoint )
-	background2:setReferencePoint( display.TopLeftReferencePoint )
-	background.x, background.y = 0, 0
-	
-	-- all display objects must be inserted into group
-	group:insert( background )
-	group:insert( background2 )
---	group:insert( myLevel )
-	for i=1, # items do
-		group:insert( items[i] )
-	end
---  group:insert( alex )
-	
 end
 
 -- Called immediately after scene has moved onscreen:
 function sceneOpt:enterScene( event )
-	local group = self.view
-	
-	timer.performWithDelay(17000, leaveOptions)
+	group = self.view
+   
+   c = credits(
+   {
+       creditsObject("Alex.png",
+      {"Level Designer","Kiosk Mode","Win/Loss Screens",
+      "Main character","Physics Bodies","Electric Eels"
+      ,"Top Scores"})
+      
+      ,creditsObject("Chris.png",
+      {"Hostile beaver and projectiles"
+      ,"Background/Foreground Scrolling Algorithm","Character Controls"
+      ,"Whirlpools","Turbines","Camera","Swamps/Rapids"
+      ,"Score tracking", "Ending Credits"})
+   })   
+   Runtime:addEventListener("enterFrame",c)
+   
+	function leaveOptions()
+      c = nil
+	   print("leaving credits")
+      storyboard.gotoScene( "menu", "fade", 500 )
+   end
+	timer.performWithDelay(25000, leaveOptions)
 
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
 
-	background.enterFrame = scroll
-	Runtime:addEventListener("enterFrame", background)
-
-	background2.enterFrame = scroll
-	Runtime:addEventListener("enterFrame", background2)
 	
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 	
@@ -164,38 +143,21 @@ end
 
 -- Called when scene is about to move offscreen:
 function sceneOpt:exitScene( event )
-	local group = self.view
+	group = self.view
+   Runtime:removeEventListener("enterFrame",c)
 	physics.pause()
-	
-	Runtime:removeEventListener("enterFrame", background)
-	
-	Runtime:removeEventListener("enterFrame", background2)
-	
 	-- INSERT code here (e.g. stop timers, remove listenets, unload sounds, etc.)
 	
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
 function sceneOpt:destroyScene( event )
-	local group = self.view
+	group = self.view
 	audio.stop(1)
 --	physics.stop()
 --	package.loaded[physics] = nil
 --	physics = nil
 end
-
-function scroll(self, event)
-		speed = 1.5
-		if self.y >= 475 then
-			self.y = -480
-		else
-			self.y = self.y + (speed+1)
-		end
-		
-		for i=1, #items do
-			items[i].y = items[i].y + 2
-		end
-	end
 -----------------------------------------------------------------------------------------
 -- END OF YOUR IMPLEMENTATION
 -----------------------------------------------------------------------------------------
