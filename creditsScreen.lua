@@ -54,7 +54,7 @@ function credits(creditsObjects)
    end
    return c
 end
-function creditsObject(imgPath,items)
+function creditsObject(namePath,imgPath,items)
    local co = {}   
    local fontSize = 16   
    co.done = false
@@ -68,8 +68,15 @@ function creditsObject(imgPath,items)
    end
    function co.play()
       co = display.newImageRect(imgPath, 200, 200)
-      co.x = display.contentWidth/2
-      co.y = 120
+      co.name = display.newImage(namePath)
+      group:insert(co)
+      group:insert(co.name)
+      co.name:scale(.28,.28)
+      co.name.alpha = .6
+      co.name.x = display.contentWidth/2
+      co.name.y = co.name.contentHeight*.5
+      co.x = co.name.x
+      co.y = co.name.y+(co.contentHeight + co.name.contentHeight)*.5
       co.group = display.newGroup()
       co.topY = co.contentHeight*.5+co.y + 20
       co.botY = display.contentHeight-15
@@ -82,7 +89,8 @@ function creditsObject(imgPath,items)
             for i=#co.group,1,-1 do
                co.group[i]:removeSelf()
             end
-            co:removeSelf()         
+            co:removeSelf()     
+            co.name:removeSelf()            
             Runtime:removeEventListener("enterFrame", co)
             co.done = true
             co.isPlaying = false
@@ -102,7 +110,6 @@ function creditsObject(imgPath,items)
          end
       end
       Runtime:addEventListener("enterFrame", co)
-      group:insert(co)
       return co
    end   
    return co
@@ -137,16 +144,16 @@ function sceneOpt:enterScene( event )
 
    c = credits(
    {
-       creditsObject("Images/Team/Raph.png",
+       creditsObject("Images/Team/Raph.gif","Images/Team/Raph.png",
       {"Group Leader", "Game Concept", "Menus & Screens", "Logos & Feel", 
       "Multi-Player Mode", "Level Select"})
       
-      ,creditsObject("Images/Team/Alex.png",
+      ,creditsObject("Images/Team/Alex.gif","Images/Team/Alex.png",
       {"Level Designer","Kiosk Mode","Win/Loss Screens",
       "Main character","Physics Bodies","Electric Eels"
       ,"Top Scores"})
       
-      ,creditsObject("Images/Team/Chris.png",
+      ,creditsObject("Images/Team/Chris.gif","Images/Team/Chris.png",
       {"Lead Programmer"      
       ,"Background/Foreground Scrolling Algorithm"
       ,"Game Logic"
