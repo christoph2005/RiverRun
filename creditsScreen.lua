@@ -138,7 +138,8 @@ function sceneOpt:enterScene( event )
    c = credits(
    {
        creditsObject("Raph.png",
-      {"Group Leader", "Menus & Screens", "Logos & Feel"})
+      {"Group Leader", "Game Concept", "Menus & Screens", "Logos & Feel", 
+      "Multi-Player Mode", "Level Select"})
       
       ,creditsObject("Alex.png",
       {"Level Designer","Kiosk Mode","Win/Loss Screens",
