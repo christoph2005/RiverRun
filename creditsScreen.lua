@@ -149,10 +149,10 @@ function sceneOpt:enterScene( event )
    {
        creditsObject("Images/Team/Raph.gif","Images/Team/Raph.png",
       {"Group Leader", "Game Concept", "Menus & Screens", "Logos & Feel", 
-      "Multi-Player Mode", "Level Select"})
+      "Multi-Player & Level Select Modes"})
       
       ,creditsObject("Images/Team/Alex.gif","Images/Team/Alex.png",
-      {"Level Designer","Kiosk Mode","Win/Loss Screens",
+      {"Master Debugger", "Level Designer","Kiosk Mode","Win/Loss Screens",
       "Main character","Physics Bodies","Electric Eels"
       ,"Top Scores"})
       
