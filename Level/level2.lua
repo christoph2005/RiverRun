@@ -458,8 +458,8 @@ function sceneL2:createScene( event )
    
 
 	land = {swamp1, swamp2, rapids1, rapids2, rapids3a, rapids3b, rapids3c, rapids3d, pb1, pb2 ,pb3, pb4, pb5, pb7, pb8, pb9, pb10, pb11, pb12, pb13, pb14, pb15, pb16, pb17, pb18, pb19, pb20, pb21, pb22, pb23, pb24, pb25, pb26, pb27, pb28, pb29, pb30, pb31, pb32, pb33, pb34, info, beave1, beave2, beave3, beave4, beave5, beave6, beaveBoatH2, beaveBoatH4, beaveBoatV1, beaveBoatV2, beaveBoatV3}
-	--enemyBeavers = {beave1, beave2, beave3, beave4, beave5, beave6, beaveBoatH2, beaveBoatH4, beaveBoatV1, beaveBoatV2, beaveBoatV3}
-	enemyBeavers = {beave4, beave5, beave6, beaveBoatH2, beaveBoatH4, beaveBoatV1, beaveBoatV2, beaveBoatV3}
+	enemyBeavers = {beave1, beave2, beave3, beave4, beave5, beave6, beaveBoatH2, beaveBoatH4, beaveBoatV1, beaveBoatV2, beaveBoatV3}
+	--enemyBeavers = {beave4, beave5, beave6, beaveBoatH2, beaveBoatH4, beaveBoatV1, beaveBoatV2, beaveBoatV3}
    beaveBoatH2.vertical = false
    beaveBoatH4.vertical = false
    beaveBoatV1.vertical = true
