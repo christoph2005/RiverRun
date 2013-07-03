@@ -160,7 +160,7 @@ function sceneOpt:enterScene( event )
       {"Lead Programmer"      
       ,"Background/Foreground Scroll Algorithm"
       ,"Hostile beaver projectiles"
-      ,"Character Controls - Tilt/Accel"
+      ,"Character Controls - Tilt/Touch"
       ,"Logic for Whirlpools"
       ,"Art and Logic for Turbines"
       ,"Logic for Camera"
