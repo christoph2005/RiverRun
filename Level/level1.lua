@@ -31,6 +31,7 @@ require ("Scripts.rapid")
 require ("Scripts.swamp")
 require ("Scripts.projectilePreCollision")
 require ("Scripts.clickLogger")
+soundFX = require("Scripts.soundFX")
 
 function hostileBeaver(self, event)
    local dx, dy = (player.x-self.x), (player.y-self.y) 
@@ -50,6 +51,7 @@ function hostileBeaver(self, event)
          physics.addBody(projectile, "dynamic")  
          group:insert(projectile)
          table.insert(objectsWithLifeSpan,projectile)
+         projectile.sound = soundFX.woodHit          
          projectile.x = self.x
          projectile.y = self.y
          projectile.density = 10

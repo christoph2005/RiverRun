@@ -32,6 +32,7 @@ local level, multiPlayMode, currentPlayer
 --------------------------------------
 physics = require("physics")
 require ("Scripts.clickLogger")
+soundFX = require("Scripts.soundFX")
 
 local boost = speed
 function setSpeed()
