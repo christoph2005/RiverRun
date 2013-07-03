@@ -158,17 +158,16 @@ function sceneOpt:enterScene( event )
       
       ,creditsObject("Images/Team/Chris.gif","Images/Team/Chris.png",
       {"Lead Programmer"      
-      ,"Background/Foreground Scrolling Algorithm"
-      ,"Game Logic"
+      ,"Background/Foreground Scroll Algorithm"
       ,"Hostile beaver projectiles"
-      ,"Character Controls"
-      ,"Whirlpools"
-      ,"Turbines"
-      ,"Camera"
-      ,"Swamps"
-      ,"Rapids"
-      ,"Timer"
-      ,"Score tracking"
+      ,"Character Controls - Tilt/Accel"
+      ,"Logic for Whirlpools"
+      ,"Art and Logic for Turbines"
+      ,"Logic for Camera"
+      ,"Swamp slowing effect"
+      ,"Rapids speedup effect"
+      ,"Game Timer"
+      ,"Score tracking on all levels"
       ,"Ending Credits"})
    })   
    Runtime:addEventListener("enterFrame",c)

@@ -5,7 +5,7 @@ application =
 		fps = 30,
 		width = 320,
 		height = 480, 
-		scale = "zoomEven"
+		scale = "zoomStretch"
 	},
 		
 	LevelDirectorSettings = 
