@@ -33,7 +33,7 @@ require ("Scripts.rapid")
 require ("Scripts.swamp")
 require ("Scripts.projectilePreCollision")
 require ("Scripts.clickLogger")
-
+soundFX = require("Scripts.soundFX")
 function hostileBeaver(self, event)
    local dx, dy = (player.x-self.x), (player.y-self.y) 
    local distToBeaver = math.sqrt(dx*dx+dy*dy)
@@ -47,7 +47,8 @@ function hostileBeaver(self, event)
          self.lastShot = os.clock()
          local projectile = display.newImageRect("Images/log.png", 44, 30)         
             group:insert(projectile)
-            table.insert(objectsWithLifeSpan,projectile)  
+            table.insert(objectsWithLifeSpan,projectile) 
+            projectile.sound = soundFX.woodHit           
             projectile.birthTime = os.clock() 
             projectile.theBeave = self
             projectile.x = self.x
@@ -359,8 +360,6 @@ function sceneL2:createScene( event )
 	storyboard.removeAll()
 	group = self.view
 	physics = require("physics")
-	physics.setVelocityIterations(16)
-	physics.setPositionIterations(16)
 	print("Create level1")
 	
 	local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds 
@@ -487,8 +486,6 @@ function sceneL2:createScene( event )
 ---------------------------------------------------------
 --Initial values needed for Chris's implementation BELOW:
 ---------------------------------------------------------
-	physics.setVelocityIterations(16)
-	physics.setPositionIterations(16)
 	physics.addBody( swamp1, "static")
 	physics.addBody( swamp2, "static")
 	physics.addBody( rapids1,"static")

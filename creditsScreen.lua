@@ -64,19 +64,25 @@ function creditsObject(namePath,imgPath,items)
    end
    local function readyForMore()
       return (#co.group < #items)
-         and ( #co.group ==0 or (co.group[#co.group].y > co.topY+2.5*fontSize))
+         and ( #co.group ==0 or (co.group[#co.group].y > co.topY+1.5*fontSize))
    end
    function co.play()
-      co = display.newImageRect(imgPath, 200, 200)
-      co.name = display.newImage(namePath)
+      if (imgPath) then
+         co = display.newImageRect(imgPath, 200, 200)
+         co.name = display.newImage(namePath)
+         group:insert(co.name)
+         co.name:scale(.28,.28)
+         co.name.alpha = .6
+         co.name.x = display.contentWidth*.5
+         co.name.y = co.name.contentHeight*.5
+         co.x = co.name.x
+         co.y = co.name.y+(co.contentHeight + co.name.contentHeight)*.5
+      else
+         co = display.newImage(namePath)
+         co.x = display.contentWidth*.5
+         co.y = display.contentHeight*.25
+      end
       group:insert(co)
-      group:insert(co.name)
-      co.name:scale(.28,.28)
-      co.name.alpha = .6
-      co.name.x = display.contentWidth/2
-      co.name.y = co.name.contentHeight*.5
-      co.x = co.name.x
-      co.y = co.name.y+(co.contentHeight + co.name.contentHeight)*.5
       co.group = display.newGroup()
       co.topY = co.contentHeight*.5+co.y + 20
       co.botY = display.contentHeight-15
@@ -89,8 +95,10 @@ function creditsObject(namePath,imgPath,items)
             for i=#co.group,1,-1 do
                co.group[i]:removeSelf()
             end
-            co:removeSelf()     
-            co.name:removeSelf()            
+            co:removeSelf()   
+            if(imgPath) then            
+               co.name:removeSelf()
+            end            
             Runtime:removeEventListener("enterFrame", co)
             co.done = true
             co.isPlaying = false
@@ -142,17 +150,17 @@ function sceneOpt:enterScene( event )
 	   print("leaving credits")
       storyboard.gotoScene( "menu", "fade", 500 )
    end
-	timer.performWithDelay(34000, leaveOptions)
+	timer.performWithDelay(28000, leaveOptions)
    local backgroundMusicChannel = audio.play( backgroundMusic, { channel=1, loops=-1, fadein=1000 }  )  -- play the background music on channel 1, loop infinitely, and fadein over 5 seconds
-
+   display.setDefault( "background", 1, 1, 1 )
    c = credits(
    {
        creditsObject("Images/Team/Raph.gif","Images/Team/Raph.png",
       {"Group Leader", "Game Concept", "Menus & Screens", "Logos & Feel", 
-      "Multi-Player Mode", "Level Select"})
+      "Multi-Player & Level Select Modes"})
       
       ,creditsObject("Images/Team/Alex.gif","Images/Team/Alex.png",
-      {"Level Designer","Kiosk Mode","Win/Loss Screens",
+      {"Master Debugger", "Level Designer","Kiosk Mode","Win/Loss Screens",
       "Main character","Physics Bodies","Electric Eels"
       ,"Top Scores"})
       
@@ -169,6 +177,9 @@ function sceneOpt:enterScene( event )
       ,"Game Timer"
       ,"Score tracking on all levels"
       ,"Ending Credits"})
+      
+      ,creditsObject("Images/Team/freesfxlogo.png",nil,
+      {"http://www.freesfx.co.uk","Woodhit sound byte"})
    })   
    Runtime:addEventListener("enterFrame",c)
 
