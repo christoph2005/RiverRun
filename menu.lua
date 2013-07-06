@@ -42,7 +42,7 @@ end
 local function onOptBtnRelease()
 	
 	print("Leaving Menu")
-	storyboard.gotoScene( "kiosk", "fade", 500 )
+	storyboard.gotoScene( "options", "fade", 500 )
 	--startKioskMode()
 	--kioskMode = getKioskMode()
 	return true	-- indicates successful touch
@@ -88,8 +88,8 @@ function scene:createScene( event )
 	optionBtn = widget.newButton{
 		label="          ",
 		labelColor = { default={255}, over={128} },
-		defaultFile="Images/kiosk.png",
-		overFile="Images/kiosk-over.png",
+		defaultFile="Images/options.gif",
+		overFile="Images/options-over.gif",
 		width=200, height=75,
 		onRelease = onOptBtnRelease	-- event listener function
 	}
