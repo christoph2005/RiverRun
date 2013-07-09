@@ -23,7 +23,7 @@ local kioskMode = getKioskMode()
 local objectsWithLifeSpan={}
 local path = system.pathForFile("multiTemp.txt", system.TemporaryDirectory)
 local pathTS = system.pathForFile("lvl1TopScores.txt", system.DocumentsDirectory)
-local level, multiPlayMode, currentPlayer
+local level, multiPlayMode, currentPlayer, mode
 --------------------------------------
 --CHRIS IMPLEMENTS BELOW:
 --------------------------------------
@@ -309,6 +309,7 @@ function sceneL1:createScene( event )
 	speed = 1.5
 	kioskIndex = 1
 	local myLevel = {}
+	mode = application.TiltTapSetting.tiltTapSetting
 
 	levelDirector = require ("Level.level1Build")
 
@@ -450,8 +451,11 @@ function sceneL1:enterScene( event )
 	if(kioskMode) then
 		Runtime:addEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:addEventListener("touch", player)
-      Runtime:addEventListener("accelerometer", player)  
+		if mode == "Tap"  then
+			Runtime:addEventListener("touch", player)
+		else
+			Runtime:addEventListener("accelerometer", player) 
+		end
 	end
 	Runtime:addEventListener("touch", logClicks)
    
@@ -495,15 +499,18 @@ function sceneL1:exitScene( event )
 	if(kioskMode) then
 		Runtime:removeEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:removeEventListener("touch", player)
-      Runtime:removeEventListener("accelerometer", player) 
+		if mode == "Tap"  then
+			Runtime:removeEventListener("touch", player)
+		else
+			Runtime:removeEventListener("accelerometer", player) 
+		end
 	end
 	Runtime:removeEventListener("touch", logClicks)
 	Runtime:removeEventListener("enterFrame", update)
 	Runtime:removeEventListener("enterFrame", winLossListener)
 	rapids:removeEventListener("preCollision", rapids )
 	swamps:removeEventListener("preCollision", swamps )
-   Runtime:removeEventListener("enterFrame", theBeave)   
+	Runtime:removeEventListener("enterFrame", theBeave)   
 	audio.stop(1)
 	physics.pause()
 end

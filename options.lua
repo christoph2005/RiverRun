@@ -5,6 +5,7 @@
 -----------------------------------------------------------------------------------------
 local storyboard = require( "storyboard" )
 local sceneOpt = storyboard.newScene()
+require ("config")
 
 
 -- include Corona's "widget" library
@@ -20,6 +21,7 @@ local menuBtn
 local soundBtn
 local soundTxt
 local tiltTabBtn
+local tiltTabTxt
 local diffBtn
 local left0Btn
 local right0Btn
@@ -40,10 +42,8 @@ local function left0BtnRelease()
 
 	if audio.getVolume() > .1 then
 		audio.setVolume(audio.getVolume() - .1);
-		print(audio.getVolume())
 	else
 		audio.setVolume(0);
-		print(audio.getVolume())
 	end
 	soundTxt.text = math.round(audio.getVolume()*100)
 	return true	-- indicates successful touch
@@ -53,10 +53,8 @@ local function right0BtnRelease()
 
 	if audio.getVolume() < .9 then
 		audio.setVolume(audio.getVolume() + .1);
-		print(audio.getVolume())
 	else
 		audio.setVolume(1);
-		print(audio.getVolume())
 	end
 	soundTxt.text = math.round(audio.getVolume()*100)
 	return true	-- indicates successful touch
@@ -64,9 +62,12 @@ end
 
 local function soundBtnRelease()
 
-	print("Leaving Options")
-	storyboard.gotoScene( "menu", "fade", 500 )
-
+	if application.TiltTapSetting.tiltTapSetting == "Tap" then
+		application.TiltTapSetting.tiltTapSetting = "Tilt"
+	else
+		application.TiltTapSetting.tiltTapSetting = "Tap"
+	end
+	tiltTabTxt.text = application.TiltTapSetting.tiltTapSetting
 	return true	-- indicates successful touch
 end
 
@@ -89,6 +90,11 @@ function sceneOpt:createScene( event )
 	soundTxt.x = display.contentWidth*0.5
 	soundTxt.y = display.contentHeight - 325
 	soundTxt.text = math.round(audio.getVolume()*100)
+	
+	tiltTabTxt = display.newText("",20,40,native.systemFont,36)
+	tiltTabTxt.x = display.contentWidth*0.5
+	tiltTabTxt.y = display.contentHeight - 225
+	tiltTabTxt.text = application.TiltTapSetting.tiltTapSetting
 	
 	-- display a background image
 	background2.x = 160
@@ -222,6 +228,7 @@ function sceneOpt:createScene( event )
 	group:insert( soundBtn )
 	group:insert( soundTxt )
 	group:insert( tiltTabBtn )
+	group:insert( tiltTabTxt )
 	group:insert( diffBtn )
 	group:insert( left0Btn )
 	group:insert( right0Btn )

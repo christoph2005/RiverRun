@@ -26,7 +26,7 @@ local kioskTime = {}
 local kioskMode = getKioskMode()
 local path = system.pathForFile("multiTemp.txt", system.TemporaryDirectory)
 local pathTS = system.pathForFile("lvl2bTopScores.txt", system.DocumentsDirectory)
-local level, multiPlayMode, currentPlayer
+local level, multiPlayMode, currentPlayer, mode
 --------------------------------------
 --CHRIS IMPLEMENTS BELOW:
 --------------------------------------
@@ -390,6 +390,7 @@ function sceneL2:createScene( event )
 	speed = 1.5
 	kioskIndex = 1
 	local myLevel = {}
+	mode = application.TiltTapSetting.tiltTapSetting
 	
 	enemyBeavers = {}
 
@@ -563,8 +564,11 @@ function sceneL2:enterScene( event )
 	if(kioskMode) then
 		Runtime:addEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:addEventListener("touch", player) 
-      Runtime:addEventListener("accelerometer", player)
+		if mode == "Tap"  then
+			Runtime:addEventListener("touch", player)
+		else
+			Runtime:addEventListener("accelerometer", player) 
+		end
 	end
 	Runtime:addEventListener("touch", logClicks2)
    
@@ -647,8 +651,11 @@ function sceneL2:exitScene( event )
 	if(kioskMode) then
 		Runtime:removeEventListener("enterFrame", moveKiosk)
 	else
-		Runtime:removeEventListener("touch", player)
-      Runtime:removeEventListener("accelerometer", player)
+		if mode == "Tap"  then
+			Runtime:removeEventListener("touch", player)
+		else
+			Runtime:removeEventListener("accelerometer", player) 
+		end
 	end
 	Runtime:removeEventListener("touch", logClicks)
 	Runtime:removeEventListener("enterFrame", update)

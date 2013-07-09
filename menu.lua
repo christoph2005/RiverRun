@@ -22,6 +22,7 @@ local playBtn
 local titleLogo
 local optionBtn
 local creditsBtn
+local kioskBtn
 local background
 local background2
 local backgroundMusic = audio.loadStream("Audio/Menu.mp3")
@@ -51,6 +52,12 @@ end
 local function onCreditsBtnRelease()
 	
     storyboard.gotoScene( "creditsScreen", "fade", 500 )
+	audio.stop(2)
+	return true	-- indicates successful touch
+end
+
+local function onKioskBtnRelease()
+	storyboard.gotoScene( "kiosk", "fade", 500 )
 	audio.stop(2)
 	return true	-- indicates successful touch
 end
@@ -123,6 +130,15 @@ function scene:createScene( event )
 	creditsBtn.x = display.contentWidth*.78
 	creditsBtn.y = display.contentHeight - 25
 	
+	kioskBtn = widget.newButton{
+		label="          ",
+		labelColor = { default={255}, over={128} },
+		width=10, height=10,
+		onRelease = onKioskBtnRelease	-- event listener function
+	}
+	kioskBtn.x = 0
+	kioskBtn.y = 0
+	
 	-- all display objects must be inserted into group
 	group:insert( background )
 	group:insert( background2 )
@@ -130,6 +146,7 @@ function scene:createScene( event )
 	group:insert( playBtn )
 	group:insert( optionBtn )
 	group:insert( creditsBtn )
+	group:insert( kioskBtn )
         
 	
 end
