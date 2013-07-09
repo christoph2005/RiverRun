@@ -31,6 +31,7 @@ require ("Scripts.rapid")
 require ("Scripts.swamp")
 require ("Scripts.projectilePreCollision")
 require ("Scripts.clickLogger")
+require("config")
 soundFX = require("Scripts.soundFX")
 
 function hostileBeaver(self, event)
