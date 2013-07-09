@@ -22,13 +22,10 @@ local soundBtn
 local soundTxt
 local tiltTabBtn
 local tiltTabTxt
-local diffBtn
 local left0Btn
 local right0Btn
 local left1Btn
 local right1Btn
-local left2Btn
-local right2Btn
 
 local function menuBtnRelease()
 
@@ -186,41 +183,6 @@ function sceneOpt:createScene( event )
 	right1Btn.x = display.contentWidth*0.80
 	right1Btn.y = display.contentHeight - 225
 
-	-- create a widget button (which will loads level1.lua on release)
-	diffBtn = widget.newButton{
-		label="          ",
-		labelColor = { default={255}, over={128} },
-		defaultFile="Images/Options/difficulty.gif",
-		width=150, height=50
-	}
-	diffBtn:setReferencePoint( display.CenterReferencePoint )
-	diffBtn.x = display.contentWidth*0.5
-	diffBtn.y = display.contentHeight - 175
-
-	-- create a widget button (which will loads level1.lua on release)
-	left2Btn = widget.newButton{
-		label="          ",
-		labelColor = { default={255}, over={128} },
-		defaultFile="Images/Options/left.gif",
-		width=75, height=50,
-		onRelease = soundBtnRelease	-- event listener function
-	}
-	left2Btn:setReferencePoint( display.CenterReferencePoint )
-	left2Btn.x = display.contentWidth*0.20
-	left2Btn.y = display.contentHeight - 125
-
-	-- create a widget button (which will loads level1.lua on release)
-	right2Btn = widget.newButton{
-		label="          ",
-		labelColor = { default={255}, over={128} },
-		defaultFile="Images/Options/right.gif",
-		width=75, height=50,
-		onRelease = soundBtnRelease	-- event listener function
-	}
-	right2Btn:setReferencePoint( display.CenterReferencePoint )
-	right2Btn.x = display.contentWidth*0.80
-	right2Btn.y = display.contentHeight - 125
-	
 	-- all display objects must be inserted into group
 	group:insert( background )
 	group:insert( background2 ) 
@@ -229,13 +191,10 @@ function sceneOpt:createScene( event )
 	group:insert( soundTxt )
 	group:insert( tiltTabBtn )
 	group:insert( tiltTabTxt )
-	group:insert( diffBtn )
 	group:insert( left0Btn )
 	group:insert( right0Btn )
 	group:insert( left1Btn )
 	group:insert( right1Btn )
-	group:insert( left2Btn )
-	group:insert( right2Btn )
 	
 end
 
@@ -284,11 +243,6 @@ function sceneOpt:destroyScene( event )
 		tiltTabBtn = nil
 	end
 
-	if diffBtn then
-		diffBtn:removeSelf()	-- widgets must be manually removed
-		diffBtn = nil
-	end
-
 	if left0Btn then
 		left0Btn:removeSelf()	-- widgets must be manually removed
 		left0Btn = nil
@@ -307,16 +261,6 @@ function sceneOpt:destroyScene( event )
 	if right1Btn then
 		right1Btn:removeSelf()	-- widgets must be manually removed
 		right1Btn = nil
-	end
-
-	if left2Btn then
-		left2Btn:removeSelf()	-- widgets must be manually removed
-		left2Btn = nil
-	end
-
-	if right2Btn then
-		right2Btn:removeSelf()	-- widgets must be manually removed
-		right2Btn = nil
 	end
 
 end
