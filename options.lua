@@ -17,7 +17,6 @@ print("options")
 -- forward declarations and other locals
 local background
 local background2
-local menuBtn
 local soundBtn
 local soundTxt
 local tiltTabBtn
@@ -26,6 +25,7 @@ local left0Btn
 local right0Btn
 local left1Btn
 local right1Btn
+local returnBtn, topImage
 
 local function menuBtnRelease()
 
@@ -85,12 +85,12 @@ function sceneOpt:createScene( event )
 	
 	soundTxt = display.newText("",20,40,native.systemFont,36)
 	soundTxt.x = display.contentWidth*0.5
-	soundTxt.y = display.contentHeight - 325
+	soundTxt.y = display.contentHeight - 300
 	soundTxt.text = math.round(audio.getVolume()*100)
 	
 	tiltTabTxt = display.newText("",20,40,native.systemFont,36)
 	tiltTabTxt.x = display.contentWidth*0.5
-	tiltTabTxt.y = display.contentHeight - 225
+	tiltTabTxt.y = display.contentHeight - 150
 	tiltTabTxt.text = application.TiltTapSetting.tiltTapSetting
 	
 	-- display a background image
@@ -99,19 +99,6 @@ function sceneOpt:createScene( event )
 	background:setReferencePoint( display.TopLeftReferencePoint )
 	background2:setReferencePoint( display.TopLeftReferencePoint )
 	background.x, background.y = 0, 0
-
-	-- create a widget button (which will loads options.lua on release)
-	menuBtn = widget.newButton{
-		label="          ",
-		labelColor = { default={255}, over={128} },
-		defaultFile="Images/Options/menuBack.gif",
-		overFile="Images/Options/menuBack-over.gif",
-		width=100, height=61,
-		onRelease = menuBtnRelease	-- event listener function
-	}
-	menuBtn:setReferencePoint( display.CenterReferencePoint )
-	menuBtn.x = display.contentWidth*0.15
-	menuBtn.y = display.contentHeight - 450
 
 	-- create a widget button (which will loads level1.lua on release)
 	soundBtn = widget.newButton{
@@ -122,7 +109,7 @@ function sceneOpt:createScene( event )
 	}
 	soundBtn:setReferencePoint( display.CenterReferencePoint )
 	soundBtn.x = display.contentWidth*0.5
-	soundBtn.y = display.contentHeight - 375
+	soundBtn.y = display.contentHeight - 350
 
 	-- create a widget button (which will loads level1.lua on release)
 	left0Btn = widget.newButton{
@@ -134,7 +121,7 @@ function sceneOpt:createScene( event )
 	}
 	left0Btn:setReferencePoint( display.CenterReferencePoint )
 	left0Btn.x = display.contentWidth*0.20
-	left0Btn.y = display.contentHeight - 325
+	left0Btn.y = display.contentHeight - 300
 
 	-- create a widget button (which will loads level1.lua on release)
 	right0Btn = widget.newButton{
@@ -146,7 +133,7 @@ function sceneOpt:createScene( event )
 	}
 	right0Btn:setReferencePoint( display.CenterReferencePoint )
 	right0Btn.x = display.contentWidth*0.80
-	right0Btn.y = display.contentHeight - 325
+	right0Btn.y = display.contentHeight - 300
 
 	-- create a widget button (which will loads level1.lua on release)
 	tiltTabBtn = widget.newButton{
@@ -157,7 +144,7 @@ function sceneOpt:createScene( event )
 	}
 	tiltTabBtn:setReferencePoint( display.CenterReferencePoint )
 	tiltTabBtn.x = display.contentWidth*0.5
-	tiltTabBtn.y = display.contentHeight - 275
+	tiltTabBtn.y = display.contentHeight - 200
 
 	-- create a widget button (which will loads level1.lua on release)
 	left1Btn = widget.newButton{
@@ -169,7 +156,7 @@ function sceneOpt:createScene( event )
 	}
 	left1Btn:setReferencePoint( display.CenterReferencePoint )
 	left1Btn.x = display.contentWidth*0.20
-	left1Btn.y = display.contentHeight - 225
+	left1Btn.y = display.contentHeight - 150
 
 	-- create a widget button (which will loads level1.lua on release)
 	right1Btn = widget.newButton{
@@ -181,12 +168,33 @@ function sceneOpt:createScene( event )
 	}
 	right1Btn:setReferencePoint( display.CenterReferencePoint )
 	right1Btn.x = display.contentWidth*0.80
-	right1Btn.y = display.contentHeight - 225
+	right1Btn.y = display.contentHeight - 150
+	
+	topImage = widget.newButton{
+		label="          ",
+		labelColor = { default={255}, over={128} },
+		defaultFile="Images/options.gif",
+		width=display.contentWidth*1, height=75,
+	}
+	topImage:setReferencePoint( display.CenterReferencePoint )
+	topImage.x = display.contentWidth*0.5
+	topImage.y = display.contentHeight*0.085
+
+	returnBtn = widget.newButton{
+		label="          ",
+		labelColor = { default={255}, over={128} },
+		defaultFile="Images/return.gif",
+		--overFile="Images/button-over.gif",
+		width=display.contentWidth*1, height=75,
+		onRelease = menuBtnRelease	-- event listener function
+	}
+	returnBtn:setReferencePoint( display.CenterReferencePoint )
+	returnBtn.x = display.contentWidth*0.5
+	returnBtn.y = display.contentHeight - 40
 
 	-- all display objects must be inserted into group
 	group:insert( background )
 	group:insert( background2 ) 
-	group:insert( menuBtn ) 
 	group:insert( soundBtn )
 	group:insert( soundTxt )
 	group:insert( tiltTabBtn )
@@ -195,6 +203,8 @@ function sceneOpt:createScene( event )
 	group:insert( right0Btn )
 	group:insert( left1Btn )
 	group:insert( right1Btn )
+	group:insert( topImage )
+	group:insert( returnBtn ) 
 	
 end
 
