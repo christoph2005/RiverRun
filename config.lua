@@ -18,8 +18,8 @@ application =
 		imagesSubfolder = "Images/Credits",
 	},
 
-	ProfileName =
+	TiltTapSetting =
 	{
-		profileName = "Derpy Beaver",
+		tiltTapSetting = "Tap",
 	}
 }
